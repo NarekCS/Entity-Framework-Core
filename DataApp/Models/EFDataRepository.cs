@@ -14,25 +14,45 @@ namespace DataApp.Models
         //public IEnumerable<Product> GetProductsByPrice(decimal minPrice) => context.Products.Where(p => p.Price >= minPrice).ToArray(); 
         public Product GetProduct(long id)
         {
-            Console.WriteLine("GetProduct: " + id);
-            return new Product();
+            return context.Products.Find(id);            
+        }
+        public IEnumerable<Product> GetFilteredProducts(string category = null, decimal? price = null)
+        {
+            IQueryable<Product> data = context.Products;
+            if (category != null)
+                data = data.Where(p => p.Category == category);
+            if (price != null)
+                data = data.Where(p => p.Price >= price);
+            return data;
         }
         public IEnumerable<Product> GetAllProducts()
         {
-            Console.WriteLine("GetAllProducts");
             return context.Products;
         }
         public void CreateProduct(Product newProduct)
         {
-            Console.WriteLine("CreateProduct: " + JsonConvert.SerializeObject(newProduct));
+            newProduct.Id = 0;
+            context.Products.Add(newProduct);
+            context.SaveChanges();
         }
-        public void UpdateProduct(Product changedProduct)
+        public void UpdateProduct(Product changedProduct, Product originalProduct = null)
         {
-            Console.WriteLine("UpdateProduct : " + JsonConvert.SerializeObject(changedProduct));
+            //context.Products.Update(changedProduct);
+            //Product originalProduct = context.Products.Find(changedProduct.Id);
+            if (originalProduct == null)
+                originalProduct = context.Products.Find(changedProduct.Id);
+            else
+                context.Products.Attach(originalProduct); 
+            originalProduct.Name = changedProduct.Name;
+            originalProduct.Category = changedProduct.Category;
+            originalProduct.Price = changedProduct.Price;
+            context.SaveChanges();
         }
         public void DeleteProduct(long id)
         {
-            Console.WriteLine("DeleteProduct: " + id);
-        }
+            //Product p = context.Products.Find(id);
+            context.Products.Remove(new Product { Id = id });
+            context.SaveChanges();
+        }       
     }
 }

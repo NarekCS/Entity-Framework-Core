@@ -14,13 +14,22 @@ namespace DataApp.Controllers
         private IDataRepository repository;
 
         public HomeController(IDataRepository repo) { repository = repo; }
-        public IActionResult Index()
+        //public IActionResult Index()
+        //{
+        //    // var products = repository.Products.Where(p => p.Price > 25).ToArray();
+        //    //var products = repository.GetProductsByPrice(25);
+        //    //ViewBag.ProductCount = products.Count();
+        //    return View(repository.GetAllProducts());
+        //}
+
+        public IActionResult Index(string category = null, decimal? price = null)
         {
-            // var products = repository.Products.Where(p => p.Price > 25).ToArray();
-            //var products = repository.GetProductsByPrice(25);
-            //ViewBag.ProductCount = products.Count();
-            return View(repository.GetAllProducts());
+            var products = repository.GetFilteredProducts(category, price);
+            ViewBag.category = category;
+            ViewBag.price = price;
+            return View(products);
         }
+
         public IActionResult Create()
         {
             ViewBag.CreateMode = true;
@@ -38,9 +47,9 @@ namespace DataApp.Controllers
             return View("Editor", repository.GetProduct(id));
         }
         [HttpPost]
-        public IActionResult Edit(Product product)
+        public IActionResult Edit(Product product, Product original)
         {
-            repository.UpdateProduct(product);
+            repository.UpdateProduct(product, original);
             return RedirectToAction(nameof(Index));
         }
         [HttpPost]
