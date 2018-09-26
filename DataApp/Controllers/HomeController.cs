@@ -22,11 +22,12 @@ namespace DataApp.Controllers
         //    return View(repository.GetAllProducts());
         //}
 
-        public IActionResult Index(string category = null, decimal? price = null)
+        public IActionResult Index(string category = null, decimal? price = null, bool includeRelated = true)
         {
-            var products = repository.GetFilteredProducts(category, price);
+            var products = repository.GetFilteredProducts(category, price, includeRelated);
             ViewBag.category = category;
             ViewBag.price = price;
+            ViewBag.includeRelated = includeRelated;
             return View(products);
         }
 
