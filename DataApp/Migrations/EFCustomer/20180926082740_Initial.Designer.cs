@@ -3,14 +3,16 @@ using DataApp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace DataApp.Migrations
+namespace DataApp.Migrations.EFCustomer
 {
-    [DbContext(typeof(EFDatabaseContext))]
-    partial class EFDatabaseContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(EFCustomerContext))]
+    [Migration("20180926082740_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -18,25 +20,21 @@ namespace DataApp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DataApp.Models.Product", b =>
+            modelBuilder.Entity("DataApp.Models.Customer", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Category");
+                    b.Property<string>("City");
 
-                    b.Property<int>("Color");
-
-                    b.Property<bool>("InStock");
+                    b.Property<string>("Country");
 
                     b.Property<string>("Name");
 
-                    b.Property<decimal>("Price");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("Customers");
                 });
 #pragma warning restore 612, 618
         }
