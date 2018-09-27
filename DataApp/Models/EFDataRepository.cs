@@ -15,7 +15,7 @@ namespace DataApp.Models
         //public IEnumerable<Product> GetProductsByPrice(decimal minPrice) => context.Products.Where(p => p.Price >= minPrice).ToArray(); 
         public Product GetProduct(long id)
         {
-            return context.Products.Include(p => p.Supplier).First(p => p.Id == id);
+            return context.Products.Include(p => p.Supplier).ThenInclude(s => s.Contact).ThenInclude(c => c.Location).First(p => p.Id == id);
         }
         public IEnumerable<Product> GetFilteredProducts(string category = null, decimal? price = null, bool includeRelated = true)
         {

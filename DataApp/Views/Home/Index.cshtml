@@ -37,9 +37,9 @@
             }
         </tr>
         </thead>
-        <tbody>
-            @foreach (var p in Model)
-            {
+    <tbody>
+        @foreach (var p in Model)
+        {
             <tr>
                 <td>@p.Id</td>
                 <td>@p.Name</td>
@@ -57,8 +57,13 @@
                     </form>
                 </td>
             </tr>
-            }
-        </tbody>
+            <tr>       
+                 <td colspan="6">
+                        @await Html.PartialAsync("SupplierRelated", p.Supplier)
+                 </td>  
+            </tr>
+        }
+    </tbody>
     </table>
 <a asp-action="Create" class="btn btn-primary">Create New Product</a>
 

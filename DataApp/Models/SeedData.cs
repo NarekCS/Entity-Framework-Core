@@ -48,12 +48,20 @@ namespace DataApp.Models
             new Product { Name = "Unsteady Chair", Category = "Chess", Price = 29.95m, Color = Colors.Green, InStock = true },
             new Product { Name = "Human Chess Board", Category = "Chess", Price = 75, Color = Colors.Red, InStock = true },
             new Product { Name = "Bling-Bling King", Category = "Chess", Price = 1200, Color = Colors.Blue, InStock = true } };
+                ContactLocation hq = new ContactLocation { LocationName = "Corporate HQ", Address = "200 Acme Way" };
+                ContactDetails bob = new ContactDetails { Name = "Bob Smith", Phone = "555-107-1234", Location = hq };
+                Supplier acme = new Supplier { Name = "Acme Co", City = "New York", State = "NY", Contact = bob };
                 Supplier s1 = new Supplier { Name = "Surf Dudes", City = "San Jose", State = "CA" };
                 Supplier s2 = new Supplier { Name = "Chess Kings", City = "Seattle", State = "WA" };
                 products.First().Supplier = s1;
-                foreach (Product p in products.Where(p => p.Category == "Chess"))
+                foreach (Product p in products)
                 {
-                    p.Supplier = s2;
+                    if (p == products[0])
+                        p.Supplier = s1;
+                    else if (p.Category == "Chess")
+                        p.Supplier = s2;
+                    else
+                        p.Supplier = acme;
                 }
                 return products;
             }

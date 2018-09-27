@@ -5,13 +5,11 @@ using System.Threading.Tasks;
 
 namespace DataApp.Models
 {
-    public class Supplier
+    public class ContactDetails
     {
         public long Id { get; set; }
         public string Name { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public ContactDetails Contact { get; set; }
-        public IEnumerable<Product> Products { get; set; }
+        public string Phone { get; set; }
+        public ContactLocation Location { get; set; }
     }
 }

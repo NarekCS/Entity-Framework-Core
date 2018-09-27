@@ -28,6 +28,10 @@ namespace DataApp
             services.AddTransient<IDataRepository, EFDataRepository>();
             services.AddTransient<ICustomerRepository, EFCustomerRepository>();
             services.AddTransient<MigrationsManager>();
+            services.AddTransient<ISupplierRepository, SupplierRepository>();
+            //services.AddTransient<IGenericRepository<ContactDetails>, GenericRepository<ContactDetails>>();
+            //services.AddTransient<IGenericRepository<ContactLocation>, GenericRepository<ContactLocation>>();
+            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
