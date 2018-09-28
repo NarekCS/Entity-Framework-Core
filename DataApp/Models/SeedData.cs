@@ -15,6 +15,7 @@ namespace DataApp.Models
                 if (context is EFDatabaseContext prodCtx && prodCtx.Products.Count() == 0)
                 {
                     prodCtx.Products.AddRange(Products);
+                    prodCtx.Set<Shipment>().AddRange(Shipments);
                 }
                 else if (context is EFCustomerContext custCtx && custCtx.Customers.Count() == 0)
                 {
@@ -28,6 +29,7 @@ namespace DataApp.Models
             if (context is EFDatabaseContext prodCtx && prodCtx.Products.Count() > 0)
             {
                 prodCtx.Products.RemoveRange(prodCtx.Products);
+                prodCtx.Set<Shipment>().RemoveRange(prodCtx.Set<Shipment>());
             }
             else if (context is EFCustomerContext custCtx && custCtx.Customers.Count() > 0)
             {
@@ -71,5 +73,17 @@ namespace DataApp.Models
             new Customer { Name = "Alice Smith", City = "New York", Country = "USA" },
             new Customer { Name = "Bob Jones", City = "Paris", Country = "France" },
             new Customer { Name = "Charlie Davies", City = "London", Country = "UK" } };
+
+        public static Shipment[] Shipments
+        {
+            get
+            {
+                return new Shipment[] {
+                    new Shipment { ShipperName = "Express Co", StartCity = "New York", EndCity = "San Jose" },
+                    new Shipment { ShipperName = "Tortoise Shipping", StartCity = "Boston", EndCity = "Chicago" },
+                    new Shipment { ShipperName = "Air Express", StartCity = "Miami", EndCity = "Seattle" } };
+            }
+        }
+
     }
 }
