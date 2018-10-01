@@ -25,6 +25,13 @@ namespace DataApp.Controllers
             ViewBag.Products = context.Products.Include(p => p.ProductShipments);
             return View("ShipmentEditor", context.Set<Shipment>().Find(id));
         }
+        public IActionResult UpdateShipment(long id, long[] pids)
+        {
+            Shipment shipment = context.Set<Shipment>().Include(s => s.ProductShipments).First(s => s.Id == id);
+            shipment.ProductShipments = pids.Select(pid => new ProductShipmentJunction { ShipmentId = id, ProductId = pid }).ToList();
+            context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
     }
 
     public class ProductShipmentViewModel
